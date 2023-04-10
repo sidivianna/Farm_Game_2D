@@ -1,2 +1,3 @@
 # Farm-Game-2D
-Farm game like a Harvest Moon and Stardew Valley
+Criação do cenário inicial do game;
+Divisao e estruturação das camadas dos Tilemaps.
