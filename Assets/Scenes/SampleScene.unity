@@ -1212,6 +1212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c41355f5c14ea74987b5a53a9aed32d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  language: 0
   dialogueObj: {fileID: 1935016381}
   ProfileSprite: {fileID: 1342715499}
   SpeechText: {fileID: 368025759}
@@ -63726,6 +63727,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   dialogue: {fileID: 11400000, guid: bdc88ad6f6e26ba49bc08e86a75bb1af, type: 2}
+--- !u!114 &1646127210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646127205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d8bdeef5ee22ce4db9a6e75825fd341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1691644501
 GameObject:
   m_ObjectHideFlags: 0
