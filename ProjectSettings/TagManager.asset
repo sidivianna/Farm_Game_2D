@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Axe
   - Wood
+  - Dig
   layers:
   - Default
   - TransparentFX
