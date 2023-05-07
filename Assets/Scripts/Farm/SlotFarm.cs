@@ -7,27 +7,23 @@ public class SlotFarm : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite hole;
     [SerializeField] private Sprite carrot;
-    
 
-    [SerializeField] private int digAmount; 
-
+    [SerializeField] private int digAmount;
     private int initialDigAmount;
 
-    private void start()
+    private void Start() 
     {
         initialDigAmount = digAmount;
     }
-    
-    
+
     public void OnHit() 
     {
         digAmount--;
 
-        if(digAmount == 2)
+        if(digAmount <= initialDigAmount / 2) 
         {
             spriteRenderer.sprite = hole;
         }
-    
 
         if(digAmount <= 0)
         {
@@ -39,9 +35,12 @@ public class SlotFarm : MonoBehaviour
     //metodo que detecta colisão entre dois colisores(um deles sendo Trigger.)
     private void OnTriggerEnter2D(Collider2D collision) 
     {
-        if(collision.CompareTag("Dig") )
+        if(collision.CompareTag("Dig"))
         {
             OnHit();
         }
     }
+
+
+
 }
