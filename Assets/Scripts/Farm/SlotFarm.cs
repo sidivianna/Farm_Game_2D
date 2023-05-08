@@ -4,16 +4,52 @@ using UnityEngine;
 
 public class SlotFarm : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite hole;
     [SerializeField] private Sprite carrot;
 
-    [SerializeField] private int digAmount;
+    [Header("Settings")]
+    [SerializeField] private int digAmount; //quantidade de escavação
+    [SerializeField] private float waterAmount; // quantidade de agua para regar
+
+    [SerializeField] private bool detecting;
+
     private int initialDigAmount;
+    private float currentWater;
+
+    private bool dugHole;
+
+    PlayerItems playerItems;
 
     private void Start() 
     {
+        playerItems = FindObjectOfType<PlayerItems>();
         initialDigAmount = digAmount;
+    }
+
+    private void Update() 
+    {
+        if(dugHole)
+        {
+            if(detecting) 
+            { 
+                currentWater += 0.01f;
+            }
+
+            //regou o solo por completo
+            if(currentWater >= waterAmount) 
+            {
+                spriteRenderer.sprite = carrot;
+
+                if(Input.GetKeyDown(KeyCode.E)) 
+                {
+                    spriteRenderer.sprite = hole;
+                    playerItems.carrots++;
+                    currentWater = 0f;
+                }
+            }
+        }     
     }
 
     public void OnHit() 
@@ -23,12 +59,7 @@ public class SlotFarm : MonoBehaviour
         if(digAmount <= initialDigAmount / 2) 
         {
             spriteRenderer.sprite = hole;
-        }
-
-        if(digAmount <= 0)
-        {
-            //plantar cenoura
-            spriteRenderer.sprite = carrot;
+            dugHole = true;
         }
     }
 
@@ -39,6 +70,20 @@ public class SlotFarm : MonoBehaviour
         {
             OnHit();
         }
+
+        if(collision.CompareTag("Water"))
+        {
+            detecting = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Water"))
+        {
+            detecting = false;
+        }
+
     }
 
 
