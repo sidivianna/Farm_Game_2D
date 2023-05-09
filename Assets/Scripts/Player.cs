@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 
     private Vector2 _direction;
 
-    private int handlingObj;
+    [HideInInspector] public int handlingObj;
     
     public Vector2 direction
     {
