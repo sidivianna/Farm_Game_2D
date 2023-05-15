@@ -4,38 +4,41 @@ using UnityEngine;
 
 public class Casting : MonoBehaviour
 {
-    [SerializeField] private int percentage; // chance de pescar.
+    [SerializeField] private int percentage; //cahance de pescar.
+    [SerializeField] private GameObject fishPrefab;
 
     private PlayerItems player;
+    private PlayerAnim playerAnim;
+
     private bool detectingPlayer;
 
     void Start()
     {
         player = FindObjectOfType<PlayerItems>();
+        playerAnim = player.GetComponent<PlayerAnim>();
     }
 
     void Update()
     {
-        if (detectingPlayer = true && Input.GetKeyDown(KeyCode.E)) 
+        if (detectingPlayer && Input.GetKeyDown(KeyCode.E)) 
         {
-            OnCasting();
+            playerAnim.OnCastingStarted();
+            //OnCasting();
         }
+    }
 
-        void OnCasting() 
+    public void OnCasting() 
+    {
+        int randomValue = Random.Range(1, 100);
+
+        if(randomValue <= percentage)
         {
-            int randomValue = Random.Range(1, 100);
-
-            if(randomValue <= percentage) 
-            {
-                // conseguiu pescar
-                Debug.Log("Pescou");
-
-            }
-            else 
-            {
-                // nao pescou
-                Debug.Log("Não pescou");
-            }
+            Instantiate(fishPrefab, player.transform.position + new Vector3(Random.Range(-3, -1f), 0f, 0f), Quaternion.identity);
+            Debug.Log("Pescou");
+        }
+        else
+        {
+            Debug.Log("Não Pescou");
         }
     }
 
@@ -54,5 +57,6 @@ public class Casting : MonoBehaviour
             detectingPlayer = false;
         }
     }
+
 
 }

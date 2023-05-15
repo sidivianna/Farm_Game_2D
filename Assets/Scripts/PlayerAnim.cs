@@ -7,21 +7,36 @@ public class PlayerAnim : MonoBehaviour
     private Player player;
     private Animator anim;
 
-    void Start()
+    private Casting cast;
+    
+    void Start() 
     {
-        player = GetComponent<Player>();
+        player = GetComponent<Player>();    
         anim = GetComponent<Animator>();
+
+        cast = FindObjectOfType<Casting>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Update() 
     {
         OnMove();
         OnRun();
     }
-
-    
+  
     #region Movement
+
+    public void OnCastingStarted() 
+    {
+        anim.SetTrigger("isCasting");
+        player.isPaused = true;
+    }
+
+    public void OnCastingEnded() 
+    {
+        cast.OnCasting();
+        player.isPaused = false;
+    }
+
 
     void OnMove() 
     {
@@ -78,4 +93,6 @@ public class PlayerAnim : MonoBehaviour
     }
 
     #endregion
+
+    
 }
