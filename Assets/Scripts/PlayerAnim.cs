@@ -7,21 +7,36 @@ public class PlayerAnim : MonoBehaviour
     private Player player;
     private Animator anim;
 
-    void Start()
+    private Casting cast;
+    
+    void Start() 
     {
-        player = GetComponent<Player>();
+        player = GetComponent<Player>();    
         anim = GetComponent<Animator>();
+
+        cast = FindObjectOfType<Casting>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Update() 
     {
         OnMove();
         OnRun();
     }
-
-    
+  
     #region Movement
+
+    public void OnCastingStarted() 
+    {
+        anim.SetTrigger("isCasting");
+        player.isPaused = true;
+    }
+
+    public void OnCastingEnded() 
+    {
+        cast.OnCasting();
+        player.isPaused = false;
+    }
+
 
     void OnMove() 
     {
@@ -51,6 +66,21 @@ public class PlayerAnim : MonoBehaviour
             transform.eulerAngles = new Vector2(0, 180);
         }
 
+        if(player.isCutting)
+        {
+            anim.SetInteger("transition", 3);
+        }
+
+        if(player.isDigging)
+        {
+            anim.SetInteger("transition", 4);
+        }
+
+        if(player.isWatering)
+        {
+            anim.SetInteger("transition", 5);
+        }
+
     }
 
     void OnRun() 
@@ -63,4 +93,6 @@ public class PlayerAnim : MonoBehaviour
     }
 
     #endregion
+
+    
 }
