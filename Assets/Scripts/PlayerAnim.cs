@@ -24,18 +24,28 @@ public class PlayerAnim : MonoBehaviour
     }
   
     #region Movement
-
+    
     public void OnCastingStarted() 
     {
         anim.SetTrigger("isCasting");
         player.isPaused = true;
-    }
-
+    }   
     public void OnCastingEnded() 
     {
         cast.OnCasting();
         player.isPaused = false;
     }
+
+    public void OnHammeringStarted() 
+    {
+        anim.SetBool("hammering", true);
+    }
+    public void OnHammeringEnded() 
+    {
+        anim.SetBool("hammering", false);
+    }
+
+    
 
 
     void OnMove() 
@@ -91,8 +101,9 @@ public class PlayerAnim : MonoBehaviour
         }
         
     }
+    
 
     #endregion
+}
 
     
-}
