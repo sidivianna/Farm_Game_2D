@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Axe
   - Wood
+  - Dig
+  - Water
   layers:
   - Default
   - TransparentFX

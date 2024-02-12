@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class PlayerItems : MonoBehaviour
 {
+    [Header("Amounts")]
     public int totalWood;
-    
-    void Start()
-    {
-        
-    }
+    public int carrots;
+    public float currentWater;
+    public int fishes;
 
-    // Update is called once per frame
-    void Update()
+    [Header("Limits")]
+    public float waterLimit = 50;
+    public float carrotLimit = 50;
+    public float woodLimit = 50;
+    public float fishesLimit = 10;
+    
+    public void WaterLimit(float water) 
     {
+        if (currentWater <= waterLimit) 
+        {
+            currentWater += water;
+        }
         
     }
 }

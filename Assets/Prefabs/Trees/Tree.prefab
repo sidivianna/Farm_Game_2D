@@ -4929,7 +4929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6b1ba379e84764babc5c0712d8af1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treeHealth: 10
+  treeHealth: 3
   anim: {fileID: 121962955376320528}
   woodPrefab: {fileID: 3067106624936346889, guid: 1c17a9a204133e84386df4fd7934ac4e, type: 3}
   totalWood: 5
