@@ -17,7 +17,7 @@ public class DialogueControl : MonoBehaviour
 
     [Header("Components")]
     public GameObject dialogueObj; //janela do dialogo
-    public Image ProfileSprite; //sprite do perfil
+    public Image profileSprite; //sprite do perfil
     public Text SpeechText; // texto da fala
     public Text actorNameText; // nome do NPC
 
@@ -28,6 +28,10 @@ public class DialogueControl : MonoBehaviour
     public bool isShowing;    //se a janela está visível
     private int index; // index das sentenças 
     private string[] sentences;
+    private string[] currentActorName;
+    private Sprite[] actorSprite;
+
+    private Player player;
 
     public static DialogueControl instance;
 
@@ -40,14 +44,9 @@ public class DialogueControl : MonoBehaviour
     // É chamado antes do inicializar.
     void Start()
     {
-
+        player = FindObjectOfType<Player>();
     }
 
-    
-    void Update()
-    {
-        
-    }
 
     IEnumerator TypeSentence() 
     {
@@ -72,23 +71,30 @@ public class DialogueControl : MonoBehaviour
             else // quando terminam os textos
             {
                 SpeechText.text = "";
+                actorNameText.text = "";
                 index = 0;
                 dialogueObj.SetActive(false);
                 sentences = null;
                 isShowing = false;
+                player.isPaused = false;
             }
         }
     }
 
     // chamar a fala do NPC
-    public void Speech(string[] txt) 
+    public void Speech(string[] txt, string[] actorName, Sprite[] actorProfile) 
     {
         if(!isShowing) 
         {
             dialogueObj.SetActive(true);
             sentences = txt;
+            currentActorName = actorName;
+            actorSprite = actorProfile;
+            profileSprite.sprite = actorSprite[index];
+            actorNameText.text = currentActorName[index];
             StartCoroutine(TypeSentence());
             isShowing = true;
+            player.isPaused = true;
         }
     }
 

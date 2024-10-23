@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class PlayerAnim : MonoBehaviour
 {
+    [Header("Attack Settings")]
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private float radius;
+    [SerializeField] private LayerMask enemyLayer;
+
     private Player player;
     private Animator anim;
-
     private Casting cast;
+    private bool isHitting;
+    private float recoveryTime = 1.5f;
+    private float timeCount;
     
     void Start() 
     {
@@ -21,6 +28,19 @@ public class PlayerAnim : MonoBehaviour
     {
         OnMove();
         OnRun();
+
+        if(isHitting)
+        {
+            timeCount += Time.deltaTime;
+
+            if(timeCount >= recoveryTime)
+            {
+                isHitting = false;
+                timeCount = 0f;
+            }
+        }
+
+        
     }
   
     #region Movement
@@ -45,8 +65,14 @@ public class PlayerAnim : MonoBehaviour
         anim.SetBool("hammering", false);
     }
 
-    
-
+    public void OnHit()
+    {
+        if(!isHitting)
+        {
+            anim.SetTrigger("hit");
+            isHitting = true;
+        }
+    }
 
     void OnMove() 
     {
@@ -54,7 +80,10 @@ public class PlayerAnim : MonoBehaviour
         {
             if(player.isRolling)
             {
-                anim.SetTrigger("IsRoll");
+                if(!anim.GetCurrentAnimatorStateInfo(0).IsName("roll"))
+                {
+                    anim.SetTrigger("IsRoll");
+                }      
             }
             else 
             {
@@ -95,13 +124,33 @@ public class PlayerAnim : MonoBehaviour
 
     void OnRun() 
     {
-        if(player.isRunning)
+        if(player.isRunning && player.direction.sqrMagnitude > 0)
         {
             anim.SetInteger("transition", 2);
         }
         
     }
     
+
+    #endregion
+
+    #region Attack
+
+    public void OnAttack()
+    {
+        Collider2D hit = Physics2D.OverlapCircle(attackPoint.position, radius, enemyLayer);
+
+        if(hit != null)
+        {
+            //atacou o inimigo
+            hit.GetComponentInChildren<AnimationControl>().OnHit();
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(attackPoint.position, radius);
+    }
 
     #endregion
 }

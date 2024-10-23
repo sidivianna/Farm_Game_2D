@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class SlotFarm : MonoBehaviour
 {
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip holeSFX;
+    [SerializeField] private AudioClip carrotSFX;
+
+    
     [Header("Components")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite hole;
@@ -14,10 +20,12 @@ public class SlotFarm : MonoBehaviour
     [SerializeField] private float waterAmount; // quantidade de agua para regar
 
     [SerializeField] private bool detecting;
+    private bool isPlayer; //fica verdadeiro quando o player esra encostando 
 
     private int initialDigAmount;
     private float currentWater;
 
+    private bool plantedcarrot;
     private bool dugHole;
 
     PlayerItems playerItems;
@@ -38,17 +46,21 @@ public class SlotFarm : MonoBehaviour
             }
 
             //regou o solo por completo
-            if(currentWater >= waterAmount) 
+            if(currentWater >= waterAmount && !plantedcarrot) 
             {
+                audioSource.PlayOneShot(holeSFX);
                 spriteRenderer.sprite = carrot;
 
-                if(Input.GetKeyDown(KeyCode.E)) 
+                plantedcarrot = true;
+            }
+
+            if(Input.GetKeyDown(KeyCode.E) && plantedcarrot && isPlayer) 
                 {
+                    audioSource.PlayOneShot(carrotSFX);
                     spriteRenderer.sprite = hole;
                     playerItems.carrots++;
                     currentWater = 0f;
                 }
-            }
         }     
     }
 
@@ -75,6 +87,11 @@ public class SlotFarm : MonoBehaviour
         {
             detecting = true;
         }
+
+        if(collision.CompareTag("Player"))
+        {
+            isPlayer = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -82,6 +99,11 @@ public class SlotFarm : MonoBehaviour
         if(collision.CompareTag("Water"))
         {
             detecting = false;
+        }
+
+        if(collision.CompareTag("Player"))
+        {
+            isPlayer = false;
         }
 
     }
